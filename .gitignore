@@ -1,0 +1,7 @@
+__pycache__/
+
+FastAPI/__pycache__/
+
+FastAPI/.idea/
+
+FastAPI/node_modules
