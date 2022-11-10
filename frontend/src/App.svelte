@@ -25,10 +25,6 @@
     //   Bokeh.set_log_level('fatal');
     //   Bokeh.set_log_level('off');
 
-    const master_data_2 = new Bokeh.ColumnDataSource({
-        data: { x: [0], y: [0], x2: [0], y2: [0] },
-    });
-
     function setup_websocket(data) {
         const ws = new WebSocket("ws://10.7.0.173:8000/ws");
         let x = 0;
@@ -45,32 +41,13 @@
             }
         };
     }
-
-    var interval_2 = setInterval(function () {
-        val2 = val2 + 0.1;
-
-        master_data_2.data.x.push(val2);
-        master_data_2.data.y.push(Math.sin(val2 * 1));
-        master_data_2.data.x2.push(val2);
-        master_data_2.data.y2.push(Math.sin(val2 * 5));
-        master_data_2.change.emit();
-
-        if (master_data_2.data.x.length > 5000) {
-            master_data_2.data.x.shift();
-            master_data_2.data.y.shift();
-            master_data_2.data.x2.shift();
-            master_data_2.data.y2.shift();
-        }
-
-        if (cnt === 100) clearInterval(interval_2);
-    }, 5);
 </script>
 
 <main class="container">
     <div>
         <Controlls />
         <div class="measurement_box">
-            <Histogram {master_data_2} />
+            <Histogram />
             <CountRate />
         </div>
     </div>
@@ -89,5 +66,15 @@
     .measurement_box {
         display: flex;
         flex-direction: row;
+    }
+
+    :global(body) {
+        background-color: white;
+        /* color: #0084f6; */
+        transition: background-color 0.3s;
+    }
+    :global(body.dark-mode) {
+        background-color: #1d3040;
+        color: #bfc2c7;
     }
 </style>

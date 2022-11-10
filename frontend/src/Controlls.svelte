@@ -1,6 +1,7 @@
 <script>
     import Channel from "./Channel.svelte";
     import { v4 as uuidv4 } from "uuid";
+    import ModeButton from "./ModeButton.svelte";
 
     let channels = [
         {
@@ -29,6 +30,7 @@
 
 <div class="controlls">
     <div class="header">
+        <ModeButton />
         <div class="heading">
             <h3>Time Tagger Controll</h3>
         </div>
@@ -55,6 +57,7 @@
         border-radius: 0 0 5px 5px;
     }
     .heading {
+        flex-shrink: 1;
         margin-left: auto;
         margin-right: 0;
         width: 250px;
@@ -87,6 +90,8 @@
     .header {
         border-bottom: 1.5px solid rgb(229, 229, 229);
         margin-bottom: 0px;
+        display: flex;
+        flex-direction: row;
     }
     .footer {
         display: flex;
@@ -115,5 +120,9 @@
 
     .data_input {
         padding: 30px;
+    }
+
+    ModeButton {
+        display: inline-block;
     }
 </style>

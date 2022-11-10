@@ -1,16 +1,50 @@
 <script>
     import { onMount } from "svelte";
     // export let master_data_2;
-    export let master_data_2;
+    // export let master_data_2;
 
     // const Bokeh = window.Bokeh;
 
+    var val = 1;
+    var cnt = 0;
+    const x_length = 10000;
+
     onMount(async () => {
-        make_graph_2(master_data_2);
+        const data_source = make_graph();
+
+        var interval_2 = setInterval(function () {
+            val = val + 1;
+
+            for (var j = 0; j < x_length; j++) {
+                // data_source.data.x.push(j);
+                data_source.data.y[j] =
+                    data_source.data.y[j] + Math.sin(0.00628 * j * 0.1 * val);
+            }
+            data_source.change.emit();
+
+            if (cnt === 100) clearInterval(interval_2);
+        }, 100);
     });
 
-    function make_graph_2(data) {
-        // make a plot with some tools
+    function make_graph() {
+        const data = new Bokeh.ColumnDataSource({
+            data: { x: [], y: [] }, // the columns can't ever be differnt lengths!
+        });
+
+        for (var j = 0; j < x_length; j++) {
+            data.data.x.push(j);
+            data.data.y.push(Math.sin(0.00628 * j + val));
+        }
+
+        // const X = [];
+        // const Y = [];
+        // X.push(3);
+        // Y.push(7);
+        // for (var j = 0; j < 1024; j++) {
+        //     Y.push(Math.sin(0.00628 * j + val));
+        //     X.push(j);
+        // }
+
         const plt = Bokeh.Plotting;
         var hist = plt.figure({
             tools: "",
@@ -23,10 +57,10 @@
             y_axis_label: "counts",
         });
         var line = new Bokeh.Line({
-            x: { field: "x2" },
-            y: { field: "y2" },
+            x: { field: "x" },
+            y: { field: "y" },
             line_color: "#eb4034",
-            line_width: 0.3,
+            line_width: 1.8,
         });
 
         // hist.output_backend = "webgl";
@@ -57,7 +91,17 @@
             document.getElementById("hist_div")
         );
         // console.log("document:", doc);
+        return data;
     }
+
+    // for (var j = 0; j < 1024; j++) {
+    //     master_data_2.data.x.push(j);
+    //     master_data_2.data.y.push(0);
+    // }
+
+    // for (var j = 0; j < 1024; j++) {
+    //     master_data_2.data.x[j] = 0;
+    // }
 </script>
 
 <div class="box">

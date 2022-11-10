@@ -69,7 +69,7 @@
             { field: "y" },
             {
                 source: data,
-                line_width: 0.5,
+                line_width: 3,
                 line_color: "#234a78",
             }
         );
@@ -129,9 +129,9 @@
         var interval = setInterval(function () {
             val = val + 1;
             data.data.x.push(val);
-            data.data.y.push(Math.sin(val * 1));
+            data.data.y.push(Math.sin(val * 0.1));
             data.data.x2.push(val);
-            data.data.y2.push(Math.sin(val * 5));
+            data.data.y2.push(Math.sin(val * 0.5));
             data.change.emit();
             if (val == 2) {
                 // This is super janky
@@ -147,7 +147,7 @@
             }
 
             if (cnt === 100) clearInterval(interval);
-        }, 5);
+        }, 100);
 
         // Bokeh.embed.add_document_standalone(
         //     doc_2,
