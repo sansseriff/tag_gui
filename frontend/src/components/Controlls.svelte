@@ -2,6 +2,7 @@
     import Channel from "./Channel.svelte";
     import { v4 as uuidv4 } from "uuid";
     import ModeButton from "./ModeButton.svelte";
+    import { colorModeStore } from "../stores";
 
     let channels = [
         {
@@ -47,15 +48,22 @@
 </div>
 
 <style>
-    .controlls {
+    :global(.controlls) {
         margin: 0 10px;
         padding: 0px 0px;
         border-bottom: 1.5px solid rgb(229, 229, 229);
         border-left: 1.5px solid rgb(229, 229, 229);
         border-right: 1.5px solid rgb(229, 229, 229);
-        box-shadow: 3px 5px 20px -3px rgba(0, 0, 0, 0.1);
-        border-radius: 0 0 5px 5px;
+        box-shadow: 3px 5px 20px -3px rgba(0, 0, 0, 0.05);
+        /* border-radius: 0 0 5px 5px; */
     }
+    :global(body.dark-mode) .controlls {
+        border-bottom: 1.5px solid rgb(72, 72, 72);
+        border-left: 1.5px solid rgb(72, 72, 72);
+        border-right: 1.5px solid rgb(72, 72, 72);
+        box-shadow: 3px 5px 20px -3px rgba(255, 255, 255, 0.05);
+    }
+
     .heading {
         flex-shrink: 1;
         margin-left: auto;
@@ -67,6 +75,11 @@
         margin-bottom: 0px;
         border-radius: 0 0 0px 90px;
     }
+
+    :global(body.dark-mode) .heading {
+        background-color: #45618a;
+    }
+
     h3 {
         /* Time Tagger Controll */
         display: block;
@@ -78,13 +91,22 @@
         font-size: larger;
         /* top: 50%; */
     }
+    /* :global(body.dark-mode) h3 {
+        color: white;
+    } */
+
     #plus {
         display: block;
         color: rgb(92, 92, 92);
-        font-size: xx-large;
-        font-weight: 100;
-        padding: 9px 18px;
+        font-size: x-large;
+        font-weight: 50;
+        padding: 12px 0px 0px 15px;
         height: 50px;
+        cursor: pointer;
+    }
+
+    :global(body.dark-mode) #plus {
+        color: rgb(225, 225, 225);
     }
 
     .header {
@@ -93,12 +115,21 @@
         display: flex;
         flex-direction: row;
     }
+
+    :global(body.dark-mode) .header {
+        border-bottom: 1.5px solid rgb(72, 72, 72);
+    }
+
     .footer {
         display: flex;
         flex-direction: row;
         border-top: 1.5px solid rgb(229, 229, 229);
         /* border-bottom: 1.5px solid rgb(229, 229, 229); */
         height: 50px;
+    }
+
+    :global(body.dark-mode) .footer {
+        border-top: 1.5px solid rgb(72, 72, 72);
     }
 
     button {
@@ -108,11 +139,17 @@
         border-style: none;
         height: 50px;
         margin: 0;
-        padding: 16px;
+        padding: 15px 26px 16px 10px;
         cursor: pointer;
         font-weight: 200;
         font-size: larger;
+        border-right: 1.5px solid rgb(229, 229, 229);
     }
+    :global(body.dark-mode) button {
+        color: rgb(225, 225, 225);
+        border-right: 1.5px solid rgb(72, 72, 72);
+    }
+
     li {
         list-style: none;
         padding: 5px;
@@ -122,7 +159,7 @@
         padding: 30px;
     }
 
-    ModeButton {
+    /* ModeButton {
         display: inline-block;
-    }
+    } */
 </style>

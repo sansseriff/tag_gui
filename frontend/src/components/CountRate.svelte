@@ -9,6 +9,20 @@
     // inits with correct screen size and stuff
 
     // const Bokeh = window.Bokeh;
+    var count_rate = null;
+    var count_rate_2 = null;
+
+    // $: count = set_plot_styling($colorModeStore.color;
+    // onMount(async () => {
+    // $: set_plot_styling(hist, $colorModeStore.color);
+    // })
+
+    $: if (count_rate != null) {
+        set_plot_styling(count_rate, $colorModeStore.color);
+    }
+    $: if (count_rate_2 != null) {
+        set_plot_styling(count_rate_2, $colorModeStore.color);
+    }
 
     onMount(async () => {
         make_graph_1();
@@ -24,27 +38,27 @@
         });
 
         // make a plot with some tools
-        const count_rate = new Bokeh.Plotting.figure({
+        count_rate = new Bokeh.Plotting.figure({
             // title: "Example of random data",
             // tools: "pan,wheel_zoom,box_zoom,reset,save",
             tools: "",
             // sizing_mode: "stretch_both",
             sizing_mode: "stretch_width",
-            height: 300,
+            height: 400,
             width: 2000,
             output_backend: "webgl",
             x_axis_label: "time (s)",
             y_axis_label: "counts",
         });
         // count_rate.output_backend = "webgl";
-        const count_rate_2 = new Bokeh.Plotting.figure({
+        count_rate_2 = new Bokeh.Plotting.figure({
             // title: "Example of random data",
             // tools: "pan,wheel_zoom,box_zoom,reset,save",
             tools: "",
             //tools: "",
             // sizing_mode: "stretch_both",
             sizing_mode: "stretch_width",
-            height: 300,
+            height: 400,
             width: 2000,
         });
 
@@ -60,19 +74,13 @@
         // ))
         //     colors.push(plt.color(r, g, 150));
 
-        // const circles = count_rate.circle(
-        //     { field: "x" },
-        //     { field: "y" },
-        //     { source: data, radius: 2, fill_alpha: 1, line_color: null }
-        // );
-
         const line_1 = count_rate.line(
             { field: "x" },
             { field: "y" },
             {
                 source: data,
                 line_width: 3,
-                line_color: "#234a78",
+                line_color: "#5185c2",
             }
         );
         const line_2 = count_rate_2.line(
@@ -81,7 +89,7 @@
             {
                 source: data_dummy,
                 line_width: 3,
-                line_color: "#a842d4",
+                line_color: "#5185c2",
             }
         );
 
@@ -136,7 +144,7 @@
                 d.removeChild(d.firstChild);
             }
 
-            if (data.data.x.length > 10000) {
+            if (data.data.x.length > 400) {
                 data.data.x.shift();
                 data.data.y.shift();
                 data.data.x2.shift();
@@ -201,9 +209,14 @@
         border-style: solid;
         border-width: 1.92px;
         border-color: rgb(225, 225, 225);
-        border-radius: 5px;
+        /* border-radius: 5px; */
         margin: 10px;
-        box-shadow: 3px 5px 20px -3px rgba(0, 0, 0, 0.1);
+        box-shadow: 3px 5px 20px -3px rgba(0, 0, 0, 0.05);
+    }
+
+    :global(body.dark-mode) .box {
+        border-color: rgb(72, 72, 72);
+        box-shadow: 3px 5px 20px -3px rgba(255, 255, 255, 0.05);
     }
 
     .title {
@@ -235,5 +248,8 @@
         font-size: 1.1rem;
         font-weight: 100;
         color: #333;
+    }
+    :global(body.dark-mode) h5 {
+        color: rgb(225, 225, 225);
     }
 </style>

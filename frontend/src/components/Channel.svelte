@@ -33,8 +33,13 @@
         border-width: 1.5px;
         border-style: solid;
         border-color: rgb(229, 229, 229, 0.5);
-        border-radius: 5px;
-        box-shadow: 3px 5px 10px -3px rgba(0, 0, 0, 0.1);
+        /* border-radius: 5px; */
+        box-shadow: 3px 5px 5px -3px rgba(0, 0, 0, 0.05);
+    }
+
+    :global(body.dark-mode) .channel {
+        /* border-color: rgb(229, 229, 229, 0.5); */
+        border-color: rgb(72, 72, 72);
     }
 
     #first {

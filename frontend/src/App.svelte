@@ -22,7 +22,7 @@
     //   Bokeh.set_log_level('fatal');
     //   Bokeh.set_log_level('off');
 
-    $: console.log($colorModeStore.color);
+    // $: console.log($colorModeStore.color);
 
     function setup_websocket(data) {
         const ws = new WebSocket("ws://10.7.0.173:8000/ws");
@@ -58,7 +58,7 @@
         height: 100%;
         /* margin: 0;
         display: flex; */
-        max-width: 1300px;
+        max-width: 1500px;
         margin: 0 auto;
         padding: 0 0px;
     }
@@ -70,10 +70,11 @@
     :global(body) {
         background-color: white;
         /* color: #0084f6; */
-        transition: background-color 0.3s;
+        /* transition: background-color 0.3s; */
+        /* transition: background-color 0.3s; */
     }
     :global(body.dark-mode) {
-        background-color: #1d3040;
-        color: #bfc2c7;
+        background-color: #2d2e33;
+        color: #bec1c7;
     }
 </style>
