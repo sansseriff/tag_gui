@@ -1,5 +1,7 @@
 <script>
     import { onMount } from "svelte";
+    import { set_plot_styling } from "../util.js";
+    import { colorModeStore } from "../stores";
     // export let master_data;
     // export let doc;
 
@@ -82,33 +84,28 @@
                 line_color: "#a842d4",
             }
         );
-        // doc.add_root(count_rate);
-        // this attribute isn't available during the object initialization. Only after?
 
-        // count_rate_2.output_backend = "webgl";
-        //plot.toolbar_location = "left";  //works
-        //plot.add_tools(new Bokeh.BoxZoomTool()); // this works!
-        //plot.visible = false;
-        //plot.sizing_mode = 'strech_both'
-        count_rate.toolbar.autohide = true;
-        count_rate.toolbar.logo = null; //"grey" javascript uses 'null' as none...
-        count_rate.background_fill_color = "#fcfcfc"; // this works
+        set_plot_styling(count_rate);
 
-        console.log(count_rate.axis);
-
-        // add a line with data from the source
+        // count_rate.toolbar.autohide = true;
+        // count_rate.toolbar.logo = null; //"grey" javascript uses 'null' as none...
+        // count_rate.background_fill_color = "#fcfcfc"; // this works
 
         // console.log(count_rate.axis);
-        const axis_color = "#9898a3";
-        // count_rate.axis.axis_label = "time (s)";
-        count_rate.axis.axis_label_text_color = axis_color;
-        count_rate.axis.axis_line_color = axis_color;
-        count_rate.axis.axis_line_width = 1.7;
-        count_rate.axis.major_tick_line_color = axis_color;
-        count_rate.axis.major_tick_line_width = 1.7;
-        count_rate.axis.minor_tick_line_color = axis_color;
-        count_rate.axis.major_label_text_color = axis_color;
-        count_rate.axis.major_label_text_font_size = "medium";
+
+        // // add a line with data from the source
+
+        // // console.log(count_rate.axis);
+        // const axis_color = "#9898a3";
+        // // count_rate.axis.axis_label = "time (s)";
+        // count_rate.axis.axis_label_text_color = axis_color;
+        // count_rate.axis.axis_line_color = axis_color;
+        // count_rate.axis.axis_line_width = 1.7;
+        // count_rate.axis.major_tick_line_color = axis_color;
+        // count_rate.axis.major_tick_line_width = 1.7;
+        // count_rate.axis.minor_tick_line_color = axis_color;
+        // count_rate.axis.major_label_text_color = axis_color;
+        // count_rate.axis.major_label_text_font_size = "medium";
 
         // Bokeh.Plotting.show(count_rate, document.getElementById("count_rate"));
 
@@ -147,7 +144,7 @@
             }
 
             if (cnt === 100) clearInterval(interval);
-        }, 100);
+        }, 16);
 
         // Bokeh.embed.add_document_standalone(
         //     doc_2,

@@ -2,9 +2,10 @@
     import svelteLogo from "./assets/svelte.svg";
     import Counter from "./lib/Counter.svelte";
     import { onMount } from "svelte";
-    import CountRate from "./CountRate.svelte";
-    import Controlls from "./Controlls.svelte";
-    import Histogram from "./Histogram.svelte";
+    import CountRate from "./components/CountRate.svelte";
+    import Controlls from "./components/Controlls.svelte";
+    import Histogram from "./components/Histogram.svelte";
+    import { colorModeStore } from "./stores";
 
     // import * as Bokeh from window;
 
@@ -13,10 +14,6 @@
 
     // const Bokeh_2 = structuredClone(Bokeh);
 
-    var val = 1;
-    var val2 = 0;
-    var cnt = 0;
-
     //   Bokeh.set_log_level('trace');
     //   Bokeh.set_log_level('debug');
     //   Bokeh.set_log_level('info');
@@ -24,6 +21,8 @@
     //   Bokeh.set_log_level('error');
     //   Bokeh.set_log_level('fatal');
     //   Bokeh.set_log_level('off');
+
+    $: console.log($colorModeStore.color);
 
     function setup_websocket(data) {
         const ws = new WebSocket("ws://10.7.0.173:8000/ws");

@@ -1,4 +1,6 @@
 <script>
+    import { colorModeStore } from "../stores";
+
     function toggle() {
         window.document.body.classList.toggle("dark-mode");
     }
@@ -11,6 +13,14 @@
         // }
         window.document.body.classList.toggle("dark-mode");
         checked = !checked;
+        colorModeStore.update((color_obj) => {
+            if (color_obj.color == "light") {
+                color_obj.color = "dark";
+            } else {
+                color_obj.color = "light";
+            }
+            return color_obj;
+        });
         setTimeout(() => (event.target.checked = checked), 0);
     }
 </script>

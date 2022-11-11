@@ -1,5 +1,7 @@
 <script>
     import { onMount } from "svelte";
+    import { set_plot_styling } from "../util.js";
+    import { colorModeStore } from "../stores";
     // export let master_data_2;
     // export let master_data_2;
 
@@ -23,7 +25,7 @@
             data_source.change.emit();
 
             if (cnt === 100) clearInterval(interval_2);
-        }, 100);
+        }, 16);
     });
 
     function make_graph() {
@@ -65,22 +67,23 @@
 
         // hist.output_backend = "webgl";
 
-        hist.toolbar.autohide = true;
-        hist.toolbar.logo = null; //"grey" javascript uses 'null' as none...
-        hist.background_fill_color = "#fcfcfc"; // this works
-
         hist.add_glyph(line, data);
 
-        const axis_color = "#9898a3";
-        hist.axis.axis_label_text_color = axis_color;
-        hist.axis.axis_line_color = axis_color;
-        hist.axis.axis_line_color = axis_color;
-        hist.axis.axis_line_width = 1.7;
-        hist.axis.major_tick_line_color = axis_color;
-        hist.axis.major_tick_line_width = 1.7;
-        hist.axis.minor_tick_line_color = axis_color;
-        hist.axis.major_label_text_color = axis_color;
-        hist.axis.major_label_text_font_size = "medium";
+        set_plot_styling(hist);
+        // hist.toolbar.autohide = true;
+        // hist.toolbar.logo = null; //"grey" javascript uses 'null' as none...
+        // hist.background_fill_color = "#fcfcfc"; // this works
+
+        // const axis_color = "#9898a3";
+        // hist.axis.axis_label_text_color = axis_color;
+        // hist.axis.axis_line_color = axis_color;
+        // hist.axis.axis_line_color = axis_color;
+        // hist.axis.axis_line_width = 1.7;
+        // hist.axis.major_tick_line_color = axis_color;
+        // hist.axis.major_tick_line_width = 1.7;
+        // hist.axis.minor_tick_line_color = axis_color;
+        // hist.axis.major_label_text_color = axis_color;
+        // hist.axis.major_label_text_font_size = "medium";
 
         // plt.show(hist, document.getElementById("hist_div"));
 
