@@ -30,12 +30,14 @@
 
     function make_graph_1() {
         const data = new Bokeh.ColumnDataSource({
-            data: { x: [0], y: [0], x2: [0], y2: [0] },
+            data: { x: [], y: [], x2: [], y2: [] },
         });
 
         const data_dummy = new Bokeh.ColumnDataSource({
             data: { x: [0, 1], y: [0, 1] },
         });
+
+        const ToolTips = { index: "$index", "(x,y)": "($x,$y)" };
 
         // make a plot with some tools
         count_rate = new Bokeh.Plotting.figure({
@@ -49,7 +51,20 @@
             output_backend: "webgl",
             x_axis_label: "time (s)",
             y_axis_label: "counts",
+            y_range: [0, 2],
         });
+
+        var custom_tooltips = [
+            ["X", "@x"],
+            ["Y", "@y"],
+        ];
+
+        var custom_hover = new Bokeh.HoverTool({
+            tooltips: custom_tooltips,
+            mode: "mouse",
+        });
+        count_rate.add_tools(custom_hover);
+
         // count_rate.output_backend = "webgl";
         count_rate_2 = new Bokeh.Plotting.figure({
             // title: "Example of random data",
@@ -134,7 +149,7 @@
         var interval = setInterval(function () {
             val = val + 1;
             data.data.x.push(val);
-            data.data.y.push(Math.sin(val * 0.1));
+            data.data.y.push(1 + 0.08 * Math.sin(val * 0.1));
             data.data.x2.push(val);
             data.data.y2.push(Math.sin(val * 0.5));
             data.change.emit();

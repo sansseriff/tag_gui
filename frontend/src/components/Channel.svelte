@@ -24,16 +24,25 @@
         /* border-width: 2px; */
         border-style: none;
         border-left: 1.5px solid rgb(229, 229, 229);
+        padding: 3px 12px;
 
         /* border-style: solid; */
         /* border-color: rgb(229, 229, 229); */
         /* border-radius: 5px; */
     }
+
+    :global(body.dark-mode) input {
+        background-color: #2d2e33;
+        color: white;
+        border-left: 1.5px solid rgb(72, 72, 72);
+    }
+
     .channel {
         border-width: 1.5px;
         border-style: solid;
         border-color: rgb(229, 229, 229, 0.5);
         /* border-radius: 5px; */
+        background-color: none;
         box-shadow: 3px 5px 5px -3px rgba(0, 0, 0, 0.05);
     }
 
