@@ -59,7 +59,6 @@
             mode: "mouse",
         });
         // count_rate.add_tools(custom_hover);
-        
 
         // count_rate.output_backend = "webgl";
         count_rate = new Bokeh.Plotting.figure({
@@ -143,13 +142,19 @@
 
         var val = 1;
         var cnt = 1;
+        let time = 0;
 
-        var interval = setInterval(function () {
+        function timestep(new_time) {
+            // console.log(time)
+            // console.log(new_time - time)
+            // time = new_time
             val = val + 1;
             data.data.x.push(val);
             data.data.y.push(1 + 0.08 * Math.sin(val * 0.1) + Math.random());
             data.data.x2.push(val);
-            data.data.y2.push(0.1*Math.sin(val * 0.1) + 6 + 0.5*Math.random());
+            data.data.y2.push(
+                0.1 * Math.sin(val * 0.1) + 6 + 0.5 * Math.random()
+            );
             data.change.emit();
             // if (val == 2) {
             //     // This is super janky
@@ -163,14 +168,17 @@
                 data.data.x2.shift();
                 data.data.y2.shift();
             }
-
-            if (cnt === 100) clearInterval(interval);
-        }, 16);
+            window.requestAnimationFrame(timestep)
+        }
+        // if (cnt === 100) clearInterval(interval);
+        // }
 
         Bokeh.embed.add_document_standalone(
             doc_2,
             document.getElementById("count_rate")
         );
+
+        window.requestAnimationFrame(timestep)
     }
 </script>
 

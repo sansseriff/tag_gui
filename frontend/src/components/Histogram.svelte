@@ -11,6 +11,7 @@
     var cnt = 0;
     const x_length = 800;
     var hist = null;
+    let time = 0;
 
     $: if (hist != null) {
         set_plot_styling(hist, $colorModeStore.color);
@@ -24,7 +25,9 @@
         //     data_source.data.y[j] = 40;
         // }
 
-        var interval_2 = setInterval(function () {
+        function timestep (new_time) {
+            // console.log(new_time - time)
+            time = new_time
             val = val + 1;
             for (var j = 0; j < x_length; j++) {
                 // data_source.data.x.push(j);
@@ -33,8 +36,12 @@
                     2.1 + Math.sin(0.05 * j) + Math.sin(0.05 * val + j * 0.09) + 0.2*Math.random();
             }
             data_source.change.emit();
-            if (cnt === 100) clearInterval(interval_2);
-        }, 16);
+            // if (cnt === 100) clearInterval(interval_2);
+            window.requestAnimationFrame(timestep)
+        }
+
+        window.requestAnimationFrame(timestep)
+
     });
 
     function make_graph() {
