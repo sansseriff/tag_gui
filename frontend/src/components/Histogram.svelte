@@ -9,7 +9,7 @@
 
     var val = 1;
     var cnt = 0;
-    const x_length = 1000;
+    const x_length = 800;
     var hist = null;
 
     $: if (hist != null) {
@@ -30,11 +30,11 @@
                 // data_source.data.x.push(j);
                 data_source.data.y[j] =
                     // data_source.data.y[j] +
-                    2.1 + Math.sin(0.05 * j) + Math.sin(0.05 * val + j * 0.09);
+                    2.1 + Math.sin(0.05 * j) + Math.sin(0.05 * val + j * 0.09) + 0.2*Math.random();
             }
             data_source.change.emit();
             if (cnt === 100) clearInterval(interval_2);
-        }, 20);
+        }, 16);
     });
 
     function make_graph() {
@@ -58,6 +58,7 @@
             x_axis_label: "time (ns)",
             y_axis_label: "counts",
             y_axis_type: "log",
+            y_range: [0.1, 6],
         });
         var line = new Bokeh.Line({
             x: { field: "x" },

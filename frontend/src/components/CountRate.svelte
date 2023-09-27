@@ -2,26 +2,21 @@
     import { onMount } from "svelte";
     import { set_plot_styling } from "../util.js";
     import { colorModeStore } from "../stores";
-    // export let master_data;
-    // export let doc;
 
     // I think you need this so that bokeh
     // inits with correct screen size and stuff
-
-    // const Bokeh = window.Bokeh;
     var count_rate = null;
-    var count_rate_2 = null;
 
     // $: count = set_plot_styling($colorModeStore.color;
     // onMount(async () => {
     // $: set_plot_styling(hist, $colorModeStore.color);
     // })
 
+    // $: if (count_rate != null) {
+    //     set_plot_styling(count_rate, $colorModeStore.color);
+    // }
     $: if (count_rate != null) {
         set_plot_styling(count_rate, $colorModeStore.color);
-    }
-    $: if (count_rate_2 != null) {
-        set_plot_styling(count_rate_2, $colorModeStore.color);
     }
 
     onMount(async () => {
@@ -29,30 +24,30 @@
     });
 
     function make_graph_1() {
-        const data = new Bokeh.ColumnDataSource({
-            data: { x: [], y: [], x2: [], y2: [] },
-        });
+        // const data = new Bokeh.ColumnDataSource({
+        //     data: { x: [], y: [], x2: [], y2: [] },
+        // });
 
-        const data_dummy = new Bokeh.ColumnDataSource({
-            data: { x: [0, 1], y: [0, 1] },
+        let data = new Bokeh.ColumnDataSource({
+            data: { x: [], y: [], x2: [], y2: [] },
         });
 
         const ToolTips = { index: "$index", "(x,y)": "($x,$y)" };
 
         // make a plot with some tools
-        count_rate = new Bokeh.Plotting.figure({
-            // title: "Example of random data",
-            // tools: "pan,wheel_zoom,box_zoom,reset,save",
-            tools: "",
-            // sizing_mode: "stretch_both",
-            sizing_mode: "stretch_width",
-            height: 400,
-            width: 2000,
-            output_backend: "webgl",
-            x_axis_label: "time (s)",
-            y_axis_label: "counts",
-            y_range: [0, 2],
-        });
+        // count_rate = new Bokeh.Plotting.figure({
+        //     // title: "Example of random data",
+        //     // tools: "pan,wheel_zoom,box_zoom,reset,save",
+        //     tools: "",
+        //     // sizing_mode: "stretch_both",
+        //     sizing_mode: "stretch_width",
+        //     height: 400,
+        //     width: 2000,
+        //     output_backend: "webgl",
+        //     x_axis_label: "time (s)",
+        //     y_axis_label: "counts",
+        //     // y_range: [0, 2],
+        // });
 
         var custom_tooltips = [
             ["X", "@x"],
@@ -63,10 +58,11 @@
             tooltips: custom_tooltips,
             mode: "mouse",
         });
-        count_rate.add_tools(custom_hover);
+        // count_rate.add_tools(custom_hover);
+        
 
         // count_rate.output_backend = "webgl";
-        count_rate_2 = new Bokeh.Plotting.figure({
+        count_rate = new Bokeh.Plotting.figure({
             // title: "Example of random data",
             // tools: "pan,wheel_zoom,box_zoom,reset,save",
             tools: "",
@@ -76,6 +72,7 @@
             height: 400,
             width: 2000,
         });
+        count_rate.add_tools(custom_hover);
 
         // const N = xx.length
         // var range = Bokeh.LinAlg.range
@@ -89,7 +86,7 @@
         // ))
         //     colors.push(plt.color(r, g, 150));
 
-        const line_1 = count_rate.line(
+        const line_2 = count_rate.line(
             { field: "x" },
             { field: "y" },
             {
@@ -98,17 +95,18 @@
                 line_color: "#5185c2",
             }
         );
-        const line_2 = count_rate_2.line(
-            { field: "x" },
-            { field: "y" },
+
+        const line_2a = count_rate.line(
+            { field: "x2" },
+            { field: "y2" },
             {
-                source: data_dummy,
+                source: data,
                 line_width: 3,
-                line_color: "#5185c2",
+                line_color: "#b562cc",
             }
         );
 
-        set_plot_styling(count_rate);
+        // set_plot_styling(count_rate);
 
         // count_rate.toolbar.autohide = true;
         // count_rate.toolbar.logo = null; //"grey" javascript uses 'null' as none...
@@ -133,13 +131,13 @@
         // Bokeh.Plotting.show(count_rate, document.getElementById("count_rate"));
 
         const doc_2 = new Bokeh.Document();
-        doc_2.add_root(count_rate_2);
         doc_2.add_root(count_rate);
+        // doc_2.add_root(count_rate);
 
-        Bokeh.embed.add_document_standalone(
-            doc_2,
-            document.getElementById("count_rate")
-        );
+        // Bokeh.embed.add_document_standalone(
+        //     doc_2,
+        //     document.getElementById("count_rate")
+        // );
 
         let d = document.getElementById("count_rate");
 
@@ -149,15 +147,15 @@
         var interval = setInterval(function () {
             val = val + 1;
             data.data.x.push(val);
-            data.data.y.push(1 + 0.08 * Math.sin(val * 0.1));
+            data.data.y.push(1 + 0.08 * Math.sin(val * 0.1) + Math.random());
             data.data.x2.push(val);
-            data.data.y2.push(Math.sin(val * 0.5));
+            data.data.y2.push(0.1*Math.sin(val * 0.1) + 6 + 0.5*Math.random());
             data.change.emit();
-            if (val == 2) {
-                // This is super janky
-                // console.log("THIS: ", d.firstChild);
-                d.removeChild(d.firstChild);
-            }
+            // if (val == 2) {
+            //     // This is super janky
+            //     // console.log("THIS: ", d.firstChild);
+            //     d.removeChild(d.firstChild);
+            // }
 
             if (data.data.x.length > 400) {
                 data.data.x.shift();
@@ -169,32 +167,10 @@
             if (cnt === 100) clearInterval(interval);
         }, 16);
 
-        // Bokeh.embed.add_document_standalone(
-        //     doc_2,
-        //     document.getElementById("count_rate2")
-        // );
-        // Bokeh.embed.add_document_standalone(
-        //     doc_2,
-        //     document.getElementById("count_rate_2")
-        // );
-        // console.log("DHIO:SDKLFJDS");
-
-        // console.log("embed: ", Bokeh.embed);
-        // const doc = Bokeh.document();
-        // console.log("roots: ", Bokeh.document());
-
-        //const addDataButton = document.createElement("Button");
-        //addDataButton.appendChild(document.createTextNode("Some data."));
-        //document.getElementById("this").appendChild(addDataButton);
-        //addDataButton.addEventListener("click", addPoint);
-        //console.log("here")
-        // var doc = new Bokeh.Document();
-        // doc.add_root(count_rate);
-        // var div = html``;
-        // Bokeh.embed.add_document_standalone(doc, div);
-        // document.getElementById("hist_div").innerHTML = div;
-        // var bkdoc = Bokeh._.values(Bokeh.index)[0].model.document;
-        // console.log(bkdoc);
+        Bokeh.embed.add_document_standalone(
+            doc_2,
+            document.getElementById("count_rate")
+        );
     }
 </script>
 
@@ -204,7 +180,6 @@
     </div>
     <div class="plot_container">
         <div id="count_rate" />
-        <!-- <div id="count_rate_2" /> -->
     </div>
 </div>
 
